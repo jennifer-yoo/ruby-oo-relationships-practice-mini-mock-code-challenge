@@ -11,13 +11,17 @@ class Author
         @@all
     end
 
-    def write_books(book)
-        Publication.new(self, book)
+    def books
+        Publication.all.select { 
+            |p_instance| p_instance.author == self }.map { |instance| instance.book }
+    end
+
+    def publish(title, word_count)
+        Publication.new(self, Book.new(title, word_count))
     end
 
     def total_words
-        Publication.all.select { |p_instance| p_instance.author == self
-        }.sum { |instance| instance.book.word_count }
+        books.sum { |instance| instance.word_count }
     end
 
     def self.most_words
@@ -30,7 +34,8 @@ class Author
             end
         end
         wordy_author
-    end
 
+
+    end
 
 end

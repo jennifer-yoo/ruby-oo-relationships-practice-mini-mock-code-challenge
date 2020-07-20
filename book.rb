@@ -12,5 +12,8 @@ class Book
         @@all
     end
 
+    def authors
+        Publication.all.select { |p| p.book == self}.map { |instance| instance.author}
+    end
 
 end
